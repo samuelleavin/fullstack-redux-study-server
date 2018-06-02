@@ -17,15 +17,22 @@ function getWinners(vote) {
 function next(state) {
   const entries = state.get('entries')
                        .concat(getWinners(state.get('vote')));
+                       
+  if (entries.size === 1) {
+    return state.remove('vote')
+                .remove('entries')
+                .set('winner', entries.first());
+  }
+                       
   return state.merge({
-    vote: Map({pair: entries.take(2)}),
+    vote: Map({ pair: entries.take(2) }),
     entries: entries.skip(2)
   });
 }
 
 function vote(state, movie) {
 	return state.updateIn(
-	    ['vote', 'tally', movie],
+	    ['tally', movie],
 	    0, // undefined return value
 	    tally => tally + 1 // function(tally){ return tally + 1}
 	);
