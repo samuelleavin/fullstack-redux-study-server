@@ -22,8 +22,9 @@ export default function reducer(state = Map(), action) {
         }
 
         console.error('Failed to find action', action);
-        return state;
     }
+
+    return state;
 }
 
 /*
